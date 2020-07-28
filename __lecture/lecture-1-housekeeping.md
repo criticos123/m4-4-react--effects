@@ -74,24 +74,22 @@ Fix the following state hooks
 
 ```js
 const Button = ({ type, children }) => {
-  if (type === "primary") {
-    const [color, setColor] = React.useState("red");
-
-    return (
-      <button
-        style={{ color }}
-        onMouseEnter={() => {
-          setColor("purple");
-        }}
-        onMouseLeave={() => {
-          setColor("red");
-        }}
-      >
-        {children}
-      </button>
-    );
-  } else {
-    return <button style={{ backgroundColor: "purple" }}>{children}</button>;
-  }
+  const [color, setColor] = React.useState("purple");
+  const buttonStyles = {
+    backgroundColor: type === "primary" ? color : "purple",
+  };
+  return (
+    <button
+      style={{ buttonStyles }}
+      onMouseEnter={() => {
+        setColor("purple");
+      }}
+      onMouseLeave={() => {
+        setColor("red");
+      }}
+    >
+      {children}
+    </button>
+  );
 };
 ```

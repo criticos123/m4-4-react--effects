@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-
+import Item from "./Item";
 import cookieSrc from "../cookie.svg";
 
 const items = [
@@ -11,12 +11,15 @@ const items = [
 ];
 
 const Game = () => {
-  // TODO: Replace this with React state!
-  const numCookies = 100;
-  const purchasedItems = {
+  const [numCookies, setNumCookies] = React.useState(1000);
+
+  const [purchasedItems, setPurchasedItems] = React.useState({
     cursor: 0,
     grandma: 0,
     farm: 0,
+  });
+  const incrementCookies = () => {
+    setNumCookies(numCookies + 1);
   };
 
   return (
@@ -27,14 +30,27 @@ const Game = () => {
           {/* TODO: Calcuate the cookies per second and show it here: */}
           <strong>0</strong> cookies per second
         </Indicator>
-        <Button>
+        <Button onClick={incrementCookies}>
           <Cookie src={cookieSrc} />
         </Button>
       </GameArea>
 
       <ItemArea>
         <SectionTitle>Items:</SectionTitle>
-        {/* TODO: Add <Item> instances here, 1 for each item type. */}
+        {items.map((item) => {
+          return (
+            <Item
+              id={item.id}
+              name={item.name}
+              cost={item.cost}
+              value={item.value}
+              numCookies={numCookies}
+              setNumCookies={setNumCookies}
+              purchasedItems={purchasedItems}
+              setPurchasedItems={setPurchasedItems}
+            />
+          );
+        })}
       </ItemArea>
       <HomeLink to="/">Return home</HomeLink>
     </Wrapper>

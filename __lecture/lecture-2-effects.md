@@ -150,9 +150,9 @@ Update the following snippets to make use of `useEffect`
 ```js
 const App = () => {
   const [count, setCount] = React.useState(0);
-
-  document.title = `You have clicked ${count} times`;
-
+  React.useEffect(() => {
+    document.title = `You have clicked ${count} times`;
+  }, [count]);
   return <button onClick={() => setCount(count + 1)}>Increment</button>;
 };
 ```
@@ -162,10 +162,10 @@ const App = () => {
 ```js
 const App = ({ color }) => {
   const [value, setValue] = React.useState(false);
-
+  React.useEffect(()=>{
   window.localStorage.setItem("value", value);
   window.localStorage.setItem("color", color);
-
+  },[value,color]}
   return (
     <div>
       Value: {value}
@@ -179,12 +179,13 @@ const App = ({ color }) => {
 
 ```js
 const Modal = ({ handleClose }) => {
-  window.addEventListener("keydown", (ev) => {
-    if (ev.code === "Escape") {
-      handleClose();
-    }
-  });
-
+  React.useEffect(() => {
+    window.addEventListener("keydown", (ev) => {
+      if (ev.code === "Escape") {
+        handleClose();
+      }
+    });
+  }, []);
   return <div>Modal stuff</div>;
 };
 ```
@@ -299,8 +300,11 @@ const App = () => {
   React.useEffect(() => {
     window.setTimeout(() => {
       console.log("1 second after update!");
-    });
-  }, []);
+    }, 1000);
+
+  return () => {
+    window.clearTimeout(timeOutId);
+  },[]};
 
   return null;
 };
@@ -311,11 +315,13 @@ const App = () => {
 ```js
 const App = () => {
   React.useEffect(() => {
-    window.addEventListener("keydown", (ev) => {
+    cosnt handleKeyPress= (ev)=>
       console.log("You pressed: " + ev.code);
-    });
-  }, []);
 
+  window.addEventListener("keydown",handleKeyPress)
+  return=()=>{
+    window.removeEbentListener('keydown',)}
+},[])
   return null;
 };
 ```
@@ -400,7 +406,7 @@ Extract a custom hook
 ---
 
 ```js
-const App = ({ path }) => {
+const useGeData=(path)=>{
   const [data, setData] = React.useState(null);
 
   React.useEffect(() => {
@@ -410,8 +416,12 @@ const App = ({ path }) => {
         setData(json);
       });
   }, [path]);
-
-  return <span>Data: {JSON.stringify(data)}</span>;
+ return  JSON.stringify(data)
+}
+const App = ({ path }) => {
+  const data=useGetData(path);
+  return( <span>Data: {data}</span>;
+  )
 };
 ```
 
