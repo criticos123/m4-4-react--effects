@@ -19,6 +19,8 @@ const Item = ({
     if (cost < numCookies) {
       setNumCookies(numCookies - cost);
       setPurchasedItems({ ...purchasedItems, [id]: purchasedItems[id] + 1 });
+    } else {
+      window.alert("Not Enough Cookies");
     }
   };
   React.useEffect(() => {
