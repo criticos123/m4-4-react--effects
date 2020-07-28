@@ -27,6 +27,13 @@ const Game = () => {
     const sum = items.cursor + 10 * items.grandma + 100 * items.farm;
     return sum;
   };
+  React.useEffect(() => {
+    document.title = `${numCookies} cookies - Cookie Clicker Workshop`;
+
+    return () => {
+      document.title = "Cookie Clicker Workshop";
+    };
+  }, [numCookies]);
 
   useInterval(() => {
     const numOfGeneratedCookies = calculateCookiesPerTick(purchasedItems);
